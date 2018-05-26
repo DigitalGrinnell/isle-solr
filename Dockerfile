@@ -35,16 +35,16 @@ ENV JAVA_HOME=/docker-java-home/jre \
 ###
 # https://github.com/phusion/baseimage-docker/issues/58
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections \
-    && cd /tmp \
-    && wget "http://archive.apache.org/dist/lucene/solr/4.10.4/solr-4.10.4.tgz" \
-    && tar -xvzf /tmp/solr-4.10.4.tgz \
-    && cp -v /tmp/solr-4.10.4/dist/solr-4.10.4.war /usr/local/tomcat/webapps/solr.war \
-    && /usr/bin/unzip -o /usr/local/tomcat/webapps/solr.war -d /usr/local/tomcat/webapps/solr/ \
-    && cp -rv /tmp/solr-4.10.4/example/solr/. /usr/local/solr/ \
-    && cp -rv /tmp/solr-4.10.4/example/lib/ext/. /usr/local/tomcat/webapps/solr/WEB-INF/lib/ \
-    && cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lib/icu4j-53.1.jar /usr/local/tomcat/webapps/solr/WEB-INF/lib/ \
-    && cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-4.10.4.jar /usr/local/tomcat/webapps/solr/WEB-INF/lib/ \
-    && rm -rf /tmp/solr-4.10.4
+    cd /tmp && \
+    wget "http://archive.apache.org/dist/lucene/solr/4.10.4/solr-4.10.4.tgz" && \
+    tar -xvzf /tmp/solr-4.10.4.tgz && \
+    cp -v /tmp/solr-4.10.4/dist/solr-4.10.4.war /usr/local/tomcat/webapps/solr.war && \
+    /usr/bin/unzip -o /usr/local/tomcat/webapps/solr.war -d /usr/local/tomcat/webapps/solr/ && \
+    cp -rv /tmp/solr-4.10.4/example/solr/. /usr/local/solr/ && \
+    cp -rv /tmp/solr-4.10.4/example/lib/ext/. /usr/local/tomcat/webapps/solr/WEB-INF/lib/ && \
+    cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lib/icu4j-53.1.jar /usr/local/tomcat/webapps/solr/WEB-INF/lib/ && \
+    cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-4.10.4.jar /usr/local/tomcat/webapps/solr/WEB-INF/lib/ && \
+    rm -rf /tmp/solr-4.10.4
 
 COPY solr/solr.xml /usr/local/tomcat/conf/Catalina/localhost/solr.xml
 COPY solr/log4j.properties /usr/local/tomcat/webapps/solr/WEB-INF/classes/log4j.properties
