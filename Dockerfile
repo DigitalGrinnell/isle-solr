@@ -1,4 +1,4 @@
-FROM isle-tomcat:latest
+FROM benjaminrosner/isle-tomcat:latest
 
 LABEL "io.github.islandora-collaboration-group.name"="isle-solr" 
 LABEL "io.github.islandora-collaboration-group.description"="ISLE Solr container, a powerful search engine responsible for handling user searches through your Islandora collections."
