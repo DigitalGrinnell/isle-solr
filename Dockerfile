@@ -26,4 +26,6 @@ COPY rootfs /
 VOLUME /usr/local/solr
 
 EXPOSE 8080 8983
-CMD ["catalina.sh", "run"]
+
+ENTRYPOINT ["/init"]
+# CMD ["catalina.sh", "run"]
