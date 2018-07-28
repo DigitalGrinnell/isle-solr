@@ -1,14 +1,14 @@
 # ISLE Solr
+## version: RC 2018-07-28 13:55:00
 
 Based on:  
- - [Tomcat 8.5.31](https://hub.docker.com/_/tomcat/)
+ - [Tomcat 8.5.31](https://hub.docker.com/r/benjaminrosner/isle-tomcat/)
  - Apache Solr 4.10.4
- - Oracle JDK
- @todo complete me
+ - @TODO: complete me
 
 # Generic Usage
 
-@todo complete me
+ - @TODO: complete me
 
 ## Tomcat users
 
