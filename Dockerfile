@@ -1,21 +1,19 @@
-FROM benjaminrosner/isle-tomcat:preRC
+FROM benjaminrosner/isle-tomcat:latest
 
-LABEL "io.github.islandora-collaboration-group.name"="isle-solr" 
-LABEL "io.github.islandora-collaboration-group.description"="ISLE Solr container, a powerful search engine responsible for handling user searches through your Islandora collections."
-LABEL "io.github.islandora-collaboration-group.license"="Apache-2.0" 
-LABEL "io.github.islandora-collaboration-group.vcs-url"="git@github.com:Islandora-Collaboration-Group/ISLE.git" 
-LABEL "io.github.islandora-collaboration-group.vendor"="Islandora Collaboration Group (ICG) - islandora-consortium-group@googlegroups.com"
-LABEL "io.github.islandora-collaboration-group.maintainer"="Islandora Collaboration Group (ICG) - islandora-consortium-group@googlegroups.com" 
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="ISLE Solr Image" \
+      org.label-schema.description="Apache Solr Image. Search your Islandora Collection. Powered by Lucene™, Solr enables powerful matching capabilities including phrases, wildcards, joins, grouping and much more across any data type" \
+      org.label-schema.url="https://islandora-collaboration-group.github.io" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/Islandora-Collaboration-Group/isle-solr" \
+      org.label-schema.vendor="Islandora Collaboration Group (ICG) - islandora-consortium-group@googlegroups.com" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0"
 
 ENV SOLR_HOME=/usr/local/solr
-
-RUN GEN_DEP_PACKS="git" && \
-    echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends $GEN_DEP_PACKS && \
-    ## Cleanup phase.
-    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ###
 # Solr Installation
@@ -32,8 +30,7 @@ RUN mkdir -p $SOLR_HOME && \
     cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lib/icu4j-53.1.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
     cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-4.10.4.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
     ## Cleanup phase.
-    apt-get purge --auto-remove git -y && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /tmp/*
 
 COPY rootfs /
 
