@@ -3,15 +3,18 @@ FROM benjaminrosner/isle-tomcat:latest
 ARG BUILD_DATE
 ARG VCS_REF
 ARG VERSION
-LABEL org.label-schema.build-date="2018-08-05T17:13:02Z" \
+LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.name="ISLE Solr Image" \
       org.label-schema.description="Apache Solr Image. Search your Islandora Collection. Powered by Lucene™, Solr enables powerful matching capabilities including phrases, wildcards, joins, grouping and much more across any data type" \
       org.label-schema.url="https://islandora-collaboration-group.github.io" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.vcs-url="https://github.com/Islandora-Collaboration-Group/isle-solr" \
       org.label-schema.vendor="Islandora Collaboration Group (ICG) - islandora-consortium-group@googlegroups.com" \
-      org.label-schema.version="RC-20180805T171302Z" \
-      org.label-schema.schema-version="1.0"
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0" \
+      traefik.enable="true" \
+      traefik.port="8080" \
+      traefik.backend="isle-solr"
 
 ENV SOLR_HOME=/usr/local/solr
 
