@@ -7,11 +7,11 @@ Based on:
   - [ISLE-tomcat](https://hub.docker.com/r/benjaminrosner/isle-tomcat/)
     - Ubuntu 18.04 "Bionic" (@see [ISLE-ubuntu-basebox](https://hub.docker.com/r/benjaminrosner/isle-ubuntu-basebox/))
       - General Dependencies
-      - Oracle Java
+      - Oracle Java 8 Server JRE
       - Tomcat 8.5.31
   - [Apache Solr 4.10.4](http://lucene.apache.org/solr/)
 
-Size: 825MB
+Size: 573MB
 
 ## Generic Usage
 
@@ -19,7 +19,12 @@ Size: 825MB
 docker run -p 8080:8080 -it --rm islandoracollabgroup/isle-solr bash
 ```
 
-## Tomcat users
+### Default Login information
 
-admin:isle_admin  
-manager:isle_manager  
+Tomcat Admin
+  - Username: admin
+  - Password: isle_admin 
+
+Tomcat Manager
+  - Username: manager
+  - Password: isle_manager  
