@@ -12,26 +12,30 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vendor="Islandora Collaboration Group (ICG) - islandora-consortium-group@googlegroups.com" \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0" \
-      traefik.enable="true" \
-      traefik.port="8080" \
-      traefik.backend="isle-solr"
+      traefik.port="8080"
 
-ENV SOLR_HOME=/usr/local/solr
+ENV SOLR_HOME=/usr/local/solr \
+    SOLR_VERSION=4.10.4 \
+    CATALINA_BASE=/usr/local/tomcat \
+    JAVA_MAX_MEM=${JAVA_MAX_MEM:-2G} \
+    JAVA_MIN_MEM=${JAVA_MIN_MEM:-512M} \
+    ## Per Gavin, we are no longer using -XX:+UseConcMarkSweepGC, instead G1GC.
+    JAVA_OPTS='-Djava.awt.headless=true -server -Xmx${JAVA_MAX_MEM} -Xms${JAVA_MIN_MEM} -XX:+UseG1GC -XX:+UseStringDeduplication -XX:MaxGCPauseMillis=200 -XX:InitiatingHeapOccupancyPercent=70 -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Addresses=true'
 
 ###
 # Solr Installation
 RUN mkdir -p $SOLR_HOME && \
     cd /tmp && \
     git clone -b 4.10.x https://github.com/discoverygarden/basic-solr-config.git && \
-    wget "http://archive.apache.org/dist/lucene/solr/4.10.4/solr-4.10.4.tgz" && \
-    tar -xvzf /tmp/solr-4.10.4.tgz && \
-    cp -v /tmp/solr-4.10.4/dist/solr-4.10.4.war $CATALINA_HOME/webapps/solr.war && \
+    curl -O -L http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/solr-$SOLR_VERSION.tgz && \
+    tar -xvzf /tmp/solr-$SOLR_VERSION.tgz && \
+    cp -v /tmp/solr-$SOLR_VERSION/dist/solr-$SOLR_VERSION.war $CATALINA_HOME/webapps/solr.war && \
     unzip -o /usr/local/tomcat/webapps/solr.war -d $CATALINA_HOME/webapps/solr/ && \
-    cp -rv /tmp/solr-4.10.4/example/solr/* $SOLR_HOME && \
+    cp -rv /tmp/solr-$SOLR_VERSION/example/solr/* $SOLR_HOME && \
     cp -v /tmp/basic-solr-config/conf/* $SOLR_HOME/collection1/conf && \
-    cp -rv /tmp/solr-4.10.4/example/lib/ext/* $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
-    cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lib/icu4j-53.1.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
-    cp -v /tmp/solr-4.10.4/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-4.10.4.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
+    cp -rv /tmp/solr-$SOLR_VERSION/example/lib/ext/* $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
+    cp -v /tmp/solr-$SOLR_VERSION/contrib/analysis-extras/lib/icu4j-53.1.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
+    cp -v /tmp/solr-$SOLR_VERSION/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-$SOLR_VERSION.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
     ## Cleanup phase.
     rm -rf /tmp/*
 
