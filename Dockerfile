@@ -1,18 +1,4 @@
-FROM benjaminrosner/isle-tomcat:serverjre8
-
-ARG BUILD_DATE
-ARG VCS_REF
-ARG VERSION
-LABEL org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.name="ISLE Solr Image" \
-      org.label-schema.description="Apache Solr Image. Search your Islandora Collection. Powered by Lucene™, Solr enables powerful matching capabilities including phrases, wildcards, joins, grouping and much more across any data type" \
-      org.label-schema.url="https://islandora-collaboration-group.github.io" \
-      org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/Islandora-Collaboration-Group/isle-solr" \
-      org.label-schema.vendor="Islandora Collaboration Group (ICG) - islandora-consortium-group@googlegroups.com" \
-      org.label-schema.version=$VERSION \
-      org.label-schema.schema-version="1.0" \
-      traefik.port="8080"
+FROM islandoracollabgroup/isle-tomcat:serverjre8
 
 ENV SOLR_HOME=/usr/local/solr \
     SOLR_VERSION=4.10.4 \
@@ -38,6 +24,21 @@ RUN mkdir -p $SOLR_HOME && \
     cp -v /tmp/solr-$SOLR_VERSION/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-$SOLR_VERSION.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
     ## Cleanup phase.
     rm -rf /tmp/*
+
+# Labels
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="ISLE Solr Image" \
+      org.label-schema.description="Apache Solr Image. Search your Islandora Collection. Powered by Lucene™, Solr enables powerful matching capabilities including phrases, wildcards, joins, grouping and much more across any data type" \
+      org.label-schema.url="https://islandora-collaboration-group.github.io" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/Islandora-Collaboration-Group/isle-solr" \
+      org.label-schema.vendor="Islandora Collaboration Group (ICG) - islandora-consortium-group@googlegroups.com" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0" \
+      traefik.port="8080"
 
 COPY rootfs /
 
