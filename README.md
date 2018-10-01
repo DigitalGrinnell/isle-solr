@@ -8,10 +8,8 @@ Based on:
     - Ubuntu 18.04 "Bionic" (@see [ISLE-ubuntu-basebox](https://hub.docker.com/r/benjaminrosner/isle-ubuntu-basebox/))
       - General Dependencies
       - Oracle Java 8 Server JRE
-      - Tomcat 8.5.31
+      - Tomcat 8.5.x
   - [Apache Solr 4.10.4](http://lucene.apache.org/solr/)
-
-Size: 573MB
 
 ## Generic Usage
 
