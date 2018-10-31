@@ -19,6 +19,7 @@ RUN mkdir -p $SOLR_HOME && \
     unzip -o /usr/local/tomcat/webapps/solr.war -d $CATALINA_HOME/webapps/solr/ && \
     cp -rv /tmp/solr-$SOLR_VERSION/example/solr/* $SOLR_HOME && \
     cp -v /tmp/basic-solr-config/conf/* $SOLR_HOME/collection1/conf && \
+    sed -i s#version=\"1.1\"#version=\"1.5\"#g $SOLR_HOME/collection1/conf/schema.xml && \
     cp -rv /tmp/solr-$SOLR_VERSION/example/lib/ext/* $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
     cp -v /tmp/solr-$SOLR_VERSION/contrib/analysis-extras/lib/icu4j-53.1.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
     cp -v /tmp/solr-$SOLR_VERSION/contrib/analysis-extras/lucene-libs/lucene-analyzers-icu-$SOLR_VERSION.jar $CATALINA_HOME/webapps/solr/WEB-INF/lib/ && \
