@@ -1,3 +1,7 @@
 #!/usr/bin/with-contenv sh
 
+chown -R $ISLANDORA_UID:$ISLANDORA_GID /usr/local/solr
+find /usr/local/solr -type d -exec chmod 755 {} \;
+find /usr/local/solr -type f -exec chmod 740 {} \;
+
 /usr/local/bin/confd -onetime -backend env
